@@ -21,6 +21,11 @@ img {
   border-radius: 2.5px;
   border: 1px solid gray;
   margin: 10px 0;
+  outline-color: rgb(85, 43, 129);
+}
+
+.no-bold {
+  font-weight: 400;
 }
 
 .bold-text {
