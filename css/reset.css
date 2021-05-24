@@ -1,7 +1,9 @@
 * {
   box-sizing: border-box;
+  font-family: 'Proza Libre', sans-serif;
 }
 
 body {
   margin: 0;
+  background-color: rgb(240, 240, 240);
 }
