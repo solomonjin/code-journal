@@ -1,0 +1,45 @@
+header {
+  background-color: rgb(85, 43, 129);
+}
+
+img {
+  max-width: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.entry-input {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  border-radius: 2.5px;
+  border: 1px solid gray;
+  margin: 10px 0;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+.white-text {
+  color: white;
+}
+
+.tb-margin {
+  margin: 10px 0;
+}
+
+.new-entry-button {
+  border-radius: 5px;
+  border: none;
+  background-color: rgb(85, 43, 129);
+  color: white;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+}
