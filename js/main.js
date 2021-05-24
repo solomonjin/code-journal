@@ -6,6 +6,7 @@ var $newEntryForm = document.querySelector('.new-entry-form');
 
 $newPhotoURL.addEventListener('input', handleNewPhotoURL);
 $newEntryForm.addEventListener('submit', handleNewSubmit);
+window.addEventListener('beforeunload', handleUnload);
 
 function handleNewPhotoURL(event) {
   var $newPhoto = document.querySelector('.new-entry-img');
@@ -25,4 +26,9 @@ function handleNewSubmit(event) {
   var $newPhoto = document.querySelector('.new-entry-img');
   $newPhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
   $newEntryForm.reset();
+}
+
+function handleUnload(event) {
+  var dataJSON = JSON.stringify(data);
+  localStorage.setItem('user-entry-data', dataJSON);
 }
