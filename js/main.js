@@ -32,6 +32,8 @@ function handleNewSubmit(event) {
   $newEntryForm.reset();
   $entryList.prepend(generateEntryDOM(newEntry));
   switchView('entries');
+  var $displayMessage = document.querySelector('.no-entries-msg');
+  if ($displayMessage) $displayMessage.remove();
 }
 
 function generateEntryDOM(entry) {
@@ -40,9 +42,10 @@ function generateEntryDOM(entry) {
 //     <div class="column-half img-container">
 //       <img src="">
 //     </div>
-//     <div class="column-half">
+//     <div class="column-half"> relative position
 //       <h2></h2>
 //       <p></p>
+//       <img> (edit icon; absolute position)
 //     </div>
 //   </div>
 // </li>
@@ -60,10 +63,15 @@ function generateEntryDOM(entry) {
   var $newDescription = document.createElement('p');
   $newDescription.innerText = entry.notes;
 
+  var $editIcon = document.createElement('img');
+  $editIcon.setAttribute('src', 'images/edit-icon.png');
+  $editIcon.className = 'edit-icon';
+
   var $textBox = document.createElement('div');
-  $textBox.className = 'column-half';
+  $textBox.className = 'column-half text-box';
   $textBox.appendChild($newTitle);
   $textBox.appendChild($newDescription);
+  $textBox.appendChild($editIcon);
 
   var $listContents = document.createElement('div');
   $listContents.className = 'row';
@@ -80,6 +88,7 @@ function handleContentLoad(event) {
   if (data.entries.length === 0) {
     var $displayMessage = document.createElement('p');
     $displayMessage.textContent = 'No entries have been recorded.';
+    $displayMessage.className = 'no-entries-msg';
     $entryList.appendChild($displayMessage);
   }
   for (var i = 0; i < data.entries.length; i++) {

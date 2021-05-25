@@ -86,3 +86,18 @@ ul {
 .entries-link {
   text-decoration: none;
 }
+
+li div.text-box {
+  position: relative;
+}
+
+.edit-icon {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  width: 22px;
+}
+
+.edit-icon:hover {
+  cursor: pointer;
+}
