@@ -6,6 +6,8 @@ var $newEntryForm = document.querySelector('.new-entry-form');
 var $newEntryButton = document.querySelector('.new-entry-button');
 var $entryList = document.querySelector('ul');
 var $viewList = document.querySelectorAll('.view');
+var $pageTitle = document.querySelector('.form-page-title');
+var $newPhoto = document.querySelector('.new-entry-img');
 
 $newPhotoURL.addEventListener('input', handleNewPhotoURL);
 $newEntryForm.addEventListener('submit', handleNewSubmit);
@@ -14,7 +16,6 @@ $newEntryButton.addEventListener('click', newEntryClick);
 $entryList.addEventListener('click', clickOnEdit);
 
 function handleNewPhotoURL(event) {
-  var $newPhoto = document.querySelector('.new-entry-img');
   $newPhoto.setAttribute('src', event.target.value);
 }
 
@@ -29,7 +30,7 @@ function handleNewSubmit(event) {
         data.entries[i].notes = $newEntryForm.elements.notes.value;
       }
     }
-    var $entry = document.querySelector('#id' + data.editing.entryID);
+    var $entry = document.querySelector('[data-entry-id="' + data.editing.entryID + '"]');
     $entry.replaceWith(generateEntryDOM(data.entries[indexOfEntry]));
     data.editing = null;
   } else {
@@ -43,12 +44,12 @@ function handleNewSubmit(event) {
     data.entries.unshift(newEntry);
     $entryList.prepend(generateEntryDOM(newEntry));
   }
-  var $newPhoto = document.querySelector('.new-entry-img');
   $newPhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
   $newEntryForm.reset();
   switchView('entries');
   var $displayMessage = document.querySelector('.no-entries-msg');
   if ($displayMessage) $displayMessage.remove();
+  $pageTitle.textContent = 'New Entry';
 }
 
 function generateEntryDOM(entry) {
@@ -97,7 +98,7 @@ function generateEntryDOM(entry) {
   $listContents.appendChild($textBox);
 
   var $newListEntry = document.createElement('li');
-  $newListEntry.setAttribute('id', 'id' + entry.entryID.toString());
+  $newListEntry.setAttribute('data-entry-id', entry.entryID.toString());
   $newListEntry.appendChild($listContents);
 
   return $newListEntry;
@@ -124,9 +125,6 @@ function switchView(view, form = null) {
     if ($viewList[i].getAttribute('data-view') === view) $viewList[i].classList.remove('hidden');
     else $viewList[i].classList.add('hidden');
   }
-  var $pageTitle = document.querySelector('.form-page-title');
-  if (form === 'edit') $pageTitle.textContent = 'Edit Entry';
-  else if (form === 'new') $pageTitle.textContent = 'New Entry';
 }
 
 function clickOnEdit(event) {
@@ -134,13 +132,13 @@ function clickOnEdit(event) {
     return;
   }
   switchView('entry-form', 'edit');
-  var listID = parseInt(event.target.closest('li').getAttribute('id').slice(2));
+  var listID = parseInt(event.target.closest('li').getAttribute('data-entry-id'));
   for (var i = 0; i < data.entries.length; i++) {
     if (data.entries[i].entryID === listID) data.editing = data.entries[i];
   }
   $newEntryForm.elements.title.value = data.editing.title;
   $newEntryForm.elements.image.value = data.editing.image;
   $newEntryForm.elements.notes.value = data.editing.notes;
-  var $newPhoto = document.querySelector('.new-entry-img');
   $newPhoto.setAttribute('src', data.editing.image);
+  $pageTitle.textContent = 'Edit Entry';
 }
