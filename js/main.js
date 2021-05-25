@@ -31,10 +31,7 @@ function handleNewSubmit(event) {
   $newPhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
   $newEntryForm.reset();
   $entryList.prepend(generateEntryDOM(newEntry));
-  for (var i = 0; i < $viewList.length; i++) {
-    if ($viewList[i].getAttribute('data-view') === 'entries') $viewList[i].classList.remove('hidden');
-    else $viewList[i].classList.add('hidden');
-  }
+  switchView('entries');
 }
 
 function generateEntryDOM(entry) {
@@ -91,8 +88,12 @@ function handleContentLoad(event) {
 }
 
 function newEntryClick(event) {
+  switchView('entry-form');
+}
+
+function switchView(view) {
   for (var i = 0; i < $viewList.length; i++) {
-    if ($viewList[i].getAttribute('data-view') === 'entry-form') $viewList[i].classList.remove('hidden');
+    if ($viewList[i].getAttribute('data-view') === view) $viewList[i].classList.remove('hidden');
     else $viewList[i].classList.add('hidden');
   }
 }
