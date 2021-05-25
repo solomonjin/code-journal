@@ -117,10 +117,10 @@ function handleContentLoad(event) {
 }
 
 function newEntryClick(event) {
-  switchView('entry-form', 'new');
+  switchView('entry-form');
 }
 
-function switchView(view, form = null) {
+function switchView(view) {
   for (var i = 0; i < $viewList.length; i++) {
     if ($viewList[i].getAttribute('data-view') === view) $viewList[i].classList.remove('hidden');
     else $viewList[i].classList.add('hidden');
@@ -131,7 +131,7 @@ function clickOnEdit(event) {
   if (event.target.className !== 'edit-icon') {
     return;
   }
-  switchView('entry-form', 'edit');
+  switchView('entry-form');
   var listID = parseInt(event.target.closest('li').getAttribute('data-entry-id'));
   for (var i = 0; i < data.entries.length; i++) {
     if (data.entries[i].entryID === listID) data.editing = data.entries[i];
