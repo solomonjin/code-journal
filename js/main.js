@@ -11,6 +11,7 @@ $newPhotoURL.addEventListener('input', handleNewPhotoURL);
 $newEntryForm.addEventListener('submit', handleNewSubmit);
 window.addEventListener('DOMContentLoaded', handleContentLoad);
 $newEntryButton.addEventListener('click', newEntryClick);
+$entryList.addEventListener('click', clickOnEdit);
 
 function handleNewPhotoURL(event) {
   var $newPhoto = document.querySelector('.new-entry-img');
@@ -19,18 +20,32 @@ function handleNewPhotoURL(event) {
 
 function handleNewSubmit(event) {
   event.preventDefault();
-  var newEntry = {
-    title: $newEntryForm.elements.title.value,
-    image: $newEntryForm.elements.image.value,
-    notes: $newEntryForm.elements.notes.value,
-    entryID: data.nextEntryId
-  };
-  data.nextEntryId++;
-  data.entries.unshift(newEntry);
+  if (data.editing) {
+    for (var i = 0; i < data.entries.length; i++) {
+      if (data.editing.entryID === data.entries[i].entryID) {
+        var indexOfEntry = i;
+        data.entries[i].title = $newEntryForm.elements.title.value;
+        data.entries[i].image = $newEntryForm.elements.image.value;
+        data.entries[i].notes = $newEntryForm.elements.notes.value;
+      }
+    }
+    var $entry = document.querySelector('#id' + data.editing.entryID);
+    $entry.replaceWith(generateEntryDOM(data.entries[indexOfEntry]));
+    data.editing = null;
+  } else {
+    var newEntry = {
+      title: $newEntryForm.elements.title.value,
+      image: $newEntryForm.elements.image.value,
+      notes: $newEntryForm.elements.notes.value,
+      entryID: data.nextEntryId
+    };
+    data.nextEntryId++;
+    data.entries.unshift(newEntry);
+    $entryList.prepend(generateEntryDOM(newEntry));
+  }
   var $newPhoto = document.querySelector('.new-entry-img');
   $newPhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
   $newEntryForm.reset();
-  $entryList.prepend(generateEntryDOM(newEntry));
   switchView('entries');
   var $displayMessage = document.querySelector('.no-entries-msg');
   if ($displayMessage) $displayMessage.remove();
@@ -40,11 +55,11 @@ function generateEntryDOM(entry) {
 // <li>
 //   <div class="row">
 //     <div class="column-half img-container">
-//       <img src="">
+//       <img class="entry-image" src="">
 //     </div>
 //     <div class="column-half"> relative position
-//       <h2></h2>
-//       <p></p>
+//       <h2 class="entry-title"></h2>
+//       <p class="entry-notes"></p>
 //       <img> (edit icon; absolute position)
 //     </div>
 //   </div>
@@ -52,6 +67,7 @@ function generateEntryDOM(entry) {
 
   var $newImage = document.createElement('img');
   $newImage.setAttribute('src', entry.image);
+  $newImage.className = 'entry-image';
 
   var $imageBox = document.createElement('div');
   $imageBox.className = 'column-half img-container';
@@ -59,9 +75,11 @@ function generateEntryDOM(entry) {
 
   var $newTitle = document.createElement('h2');
   $newTitle.textContent = entry.title;
+  $newTitle.className = 'entry-title';
 
   var $newDescription = document.createElement('p');
   $newDescription.innerText = entry.notes;
+  $newDescription.className = 'entry-notes';
 
   var $editIcon = document.createElement('img');
   $editIcon.setAttribute('src', 'images/edit-icon.png');
@@ -79,6 +97,7 @@ function generateEntryDOM(entry) {
   $listContents.appendChild($textBox);
 
   var $newListEntry = document.createElement('li');
+  $newListEntry.setAttribute('id', 'id' + entry.entryID.toString());
   $newListEntry.appendChild($listContents);
 
   return $newListEntry;
@@ -97,12 +116,31 @@ function handleContentLoad(event) {
 }
 
 function newEntryClick(event) {
-  switchView('entry-form');
+  switchView('entry-form', 'new');
 }
 
-function switchView(view) {
+function switchView(view, form = null) {
   for (var i = 0; i < $viewList.length; i++) {
     if ($viewList[i].getAttribute('data-view') === view) $viewList[i].classList.remove('hidden');
     else $viewList[i].classList.add('hidden');
   }
+  var $pageTitle = document.querySelector('.form-page-title');
+  if (form === 'edit') $pageTitle.textContent = 'Edit Entry';
+  else if (form === 'new') $pageTitle.textContent = 'New Entry';
+}
+
+function clickOnEdit(event) {
+  if (event.target.className !== 'edit-icon') {
+    return;
+  }
+  switchView('entry-form', 'edit');
+  var listID = parseInt(event.target.closest('li').getAttribute('id').slice(2));
+  for (var i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].entryID === listID) data.editing = data.entries[i];
+  }
+  $newEntryForm.elements.title.value = data.editing.title;
+  $newEntryForm.elements.image.value = data.editing.image;
+  $newEntryForm.elements.notes.value = data.editing.notes;
+  var $newPhoto = document.querySelector('.new-entry-img');
+  $newPhoto.setAttribute('src', data.editing.image);
 }
