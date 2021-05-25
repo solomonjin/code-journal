@@ -3,10 +3,14 @@
 
 var $newPhotoURL = document.querySelector('#new-entry-url');
 var $newEntryForm = document.querySelector('.new-entry-form');
+var $newEntryButton = document.querySelector('.new-entry-button');
+var $entryList = document.querySelector('ul');
+var $viewList = document.querySelectorAll('.view');
 
 $newPhotoURL.addEventListener('input', handleNewPhotoURL);
 $newEntryForm.addEventListener('submit', handleNewSubmit);
 window.addEventListener('DOMContentLoaded', handleContentLoad);
+$newEntryButton.addEventListener('click', newEntryClick);
 
 function handleNewPhotoURL(event) {
   var $newPhoto = document.querySelector('.new-entry-img');
@@ -26,6 +30,11 @@ function handleNewSubmit(event) {
   var $newPhoto = document.querySelector('.new-entry-img');
   $newPhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
   $newEntryForm.reset();
+  $entryList.prepend(generateEntryDOM(newEntry));
+  for (var i = 0; i < $viewList.length; i++) {
+    if ($viewList[i].getAttribute('data-view') === 'entries') $viewList[i].classList.remove('hidden');
+    else $viewList[i].classList.add('hidden');
+  }
 }
 
 function generateEntryDOM(entry) {
@@ -71,8 +80,19 @@ function generateEntryDOM(entry) {
 }
 
 function handleContentLoad(event) {
-  var $entryList = document.querySelector('ul');
+  if (data.entries.length === 0) {
+    var $displayMessage = document.createElement('p');
+    $displayMessage.textContent = 'No entries have been recorded.';
+    $entryList.appendChild($displayMessage);
+  }
   for (var i = 0; i < data.entries.length; i++) {
     $entryList.appendChild(generateEntryDOM(data.entries[i]));
+  }
+}
+
+function newEntryClick(event) {
+  for (var i = 0; i < $viewList.length; i++) {
+    if ($viewList[i].getAttribute('data-view') === 'entry-form') $viewList[i].classList.remove('hidden');
+    else $viewList[i].classList.add('hidden');
   }
 }
