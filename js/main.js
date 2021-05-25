@@ -6,6 +6,7 @@ var $newEntryForm = document.querySelector('.new-entry-form');
 
 $newPhotoURL.addEventListener('input', handleNewPhotoURL);
 $newEntryForm.addEventListener('submit', handleNewSubmit);
+window.addEventListener('DOMContentLoaded', handleContentLoad);
 
 function handleNewPhotoURL(event) {
   var $newPhoto = document.querySelector('.new-entry-img');
@@ -69,4 +70,9 @@ function generateEntryDOM(entry) {
   return $newListEntry;
 }
 
-generateEntryDOM(data.entries[1]);
+function handleContentLoad(event) {
+  var $entryList = document.querySelector('ul');
+  for (var i = 0; i < data.entries.length; i++) {
+    $entryList.appendChild(generateEntryDOM(data.entries[i]));
+  }
+}
