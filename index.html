@@ -19,16 +19,17 @@
 <body>
   <header>
     <div class="container">
-      <div class="row white-text no-bold">
-        <div class="column-half">
-          <h2 class="no-bold">Code Journal</h2>
-        </div>
+      <div class="row white-text align-center">
+        <h2 class="no-bold">Code Journal</h2>
+        <a href="" class="entries-link">
+          <h4 class="no-bold white-text add-margin-left">Entries</h4>
+        </a>
       </div>
     </div>
   </header>
   <main>
     <div class="view-container">
-      <div class="container" data-view="entry-form">
+      <div class="container view hidden" data-view="entry-form">
         <form action="" class="new-entry-form">
           <div class="row">
             <div class="column-full">
@@ -54,10 +55,20 @@
               <textarea name="notes" id="new-entry-notes" cols="30" rows="6" class="entry-input" required="required"></textarea>
             </div>
             <div class="column-full flex justify-end">
-              <button class="new-entry-button" type="submit">SAVE</button>
+              <button class="submit-entry-button" data-view="entries" type="submit">SAVE</button>
             </div>
           </div>
         </form>
+      </div>
+      <div class="container view" data-view="entries">
+        <div class="row justify-between">
+          <h1>Entries</h1>
+          <button class="new-entry-button" type="submit" data-view="entry-form">NEW</button>
+        </div>
+        <div class="row justify-center">
+          <ul class="entry-list">
+          </ul>
+        </div>
       </div>
     </div>
   </main>
