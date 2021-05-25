@@ -101,3 +101,18 @@ li div.text-box {
 .edit-icon:hover {
   cursor: pointer;
 }
+
+.delete-button {
+  color: #dc2626;
+  font-size: 14px;
+  font-family: sans-serif;
+  text-decoration: underline;
+}
+
+.hide-delete {
+  visibility: hidden;
+}
+
+.delete-button:hover {
+  cursor: pointer;
+}
