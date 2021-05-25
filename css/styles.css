@@ -3,7 +3,11 @@ header {
 }
 
 img {
-  max-width: 100%;
+  width: 100%;
+}
+
+ul {
+  padding: 0;
 }
 
 .flex {
@@ -12,6 +16,14 @@ img {
 
 .justify-end {
   justify-content: flex-end;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.justify-between {
+  justify-content: space-between;
 }
 
 .entry-input {
@@ -40,11 +52,20 @@ img {
   margin: 10px 0;
 }
 
-.new-entry-button {
+.new-entry-button,
+.submit-entry-button {
   border-radius: 5px;
   border: none;
   background-color: rgb(85, 43, 129);
   color: white;
   padding: 0.5rem 1rem;
   margin: 1rem 0;
+}
+
+.new-entry-button {
+  height: 100%;
+}
+
+.entry-list {
+  list-style-type: none;
 }

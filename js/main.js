@@ -25,4 +25,6 @@ function handleNewSubmit(event) {
   var $newPhoto = document.querySelector('.new-entry-img');
   $newPhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
   $newEntryForm.reset();
+
+  return newEntry;
 }
