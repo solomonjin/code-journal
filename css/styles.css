@@ -126,9 +126,9 @@ li div.text-box {
   width: 320px;
   height: 130px;
   background-color: white;
-  top: 40%;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -60%);
+  transform: translate(-50%, -50%);
   z-index: 2;
   border-radius: 4px;
   padding-top: 10px;
