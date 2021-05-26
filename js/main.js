@@ -15,6 +15,10 @@ var $modal = document.querySelector('.modal');
 var $modalOverlay = document.querySelector('.modal-overlay');
 var $entriesLink = document.querySelector('.entries-link');
 
+var $profilePhotoURL = document.querySelector('#edit-profile-img');
+var $profilePhoto = document.querySelector('.profile-image');
+var $profileForm = document.querySelector('.edit-profile-form');
+
 $newPhotoURL.addEventListener('input', handleNewPhotoURL);
 $newEntryForm.addEventListener('submit', handleNewSubmit);
 window.addEventListener('DOMContentLoaded', handleContentLoad);
@@ -25,8 +29,12 @@ $closeModalBtn.addEventListener('click', closeModal);
 $confirmDeleteBtn.addEventListener('click', deleteEntry);
 $entriesLink.addEventListener('click', clickEntriesLink);
 
+$profilePhotoURL.addEventListener('input', handleNewPhotoURL);
+$profileForm.addEventListener('submit', saveProfile);
+
 function handleNewPhotoURL(event) {
-  $newPhoto.setAttribute('src', event.target.value);
+  var $photoPreview = event.target.closest('.column-half').previousElementSibling.children[0];
+  $photoPreview.setAttribute('src', event.target.value);
 }
 
 function handleNewSubmit(event) {
@@ -200,4 +208,20 @@ function deleteEntry(event) {
   $deleteButton.classList.add('hide-delete');
   $newEntryForm.reset();
   $newPhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
+}
+
+/* USER PROFILE FUNCTIONS */
+
+function saveProfile(event) {
+  event.preventDefault();
+  var userProfile = {
+    username: $profileForm.elements.userName.value,
+    image: $profileForm.elements.profileImg.value,
+    bio: $profileForm.elements.userBio.value,
+    fullName: $profileForm.elements.userFullName.value,
+    location: $profileForm.elements.userLocation.value
+  };
+  data.profile = userProfile;
+  $profileForm.reset();
+  $profilePhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
 }
