@@ -55,7 +55,6 @@ function handleNewSubmit(event) {
     $entryList.prepend(generateEntryDOM(newEntry));
   }
   switchView('entries');
-  data.view = 'entries';
   var $displayMessage = document.querySelector('.no-entries-msg');
   if ($displayMessage) $displayMessage.remove();
   resetEntryForm();
@@ -70,7 +69,6 @@ function resetEntryForm() {
 
 function clickEntriesLink(event) {
   switchView('entries');
-  data.view = 'entries';
   resetEntryForm();
 }
 
@@ -146,7 +144,6 @@ function checkIfEmpty() {
 
 function newEntryClick(event) {
   switchView('entry-form');
-  data.view = 'entry-form';
   data.editing = null;
 }
 
@@ -155,6 +152,7 @@ function switchView(view) {
     if ($viewList[i].getAttribute('data-view') === view) $viewList[i].classList.remove('hidden');
     else $viewList[i].classList.add('hidden');
   }
+  data.view = view;
 }
 
 function clickOnEdit(event) {
@@ -162,7 +160,6 @@ function clickOnEdit(event) {
     return;
   }
   switchView('entry-form');
-  data.view = 'entry-form';
   var listID = parseInt(event.target.closest('li').getAttribute('data-entry-id'));
   for (var i = 0; i < data.entries.length; i++) {
     if (data.entries[i].entryID === listID) data.editing = data.entries[i];
@@ -198,7 +195,6 @@ function deleteEntry(event) {
   data.editing = null;
   closeModal();
   switchView('entries');
-  data.view = 'entries';
   checkIfEmpty();
   $pageTitle.textContent = 'New Entry';
   $deleteButton.classList.add('hide-delete');
