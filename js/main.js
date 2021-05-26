@@ -17,6 +17,7 @@ var $entriesLink = document.querySelector('.entries-link');
 
 var $profilePhotoURL = document.querySelector('#edit-profile-img');
 // var $profilePhoto = document.querySelector('.profile-img');
+var $profileForm = document.querySelector('.edit-profile-form');
 
 $newPhotoURL.addEventListener('input', handleNewPhotoURL);
 $newEntryForm.addEventListener('submit', handleNewSubmit);
@@ -29,6 +30,7 @@ $confirmDeleteBtn.addEventListener('click', deleteEntry);
 $entriesLink.addEventListener('click', clickEntriesLink);
 
 $profilePhotoURL.addEventListener('input', handleNewPhotoURL);
+$profileForm.addEventListener('submit', saveProfile);
 
 function handleNewPhotoURL(event) {
   var $photoPreview = event.target.closest('.column-half').previousElementSibling.children[0];
@@ -209,3 +211,15 @@ function deleteEntry(event) {
 }
 
 /* USER PROFILE FUNCTIONS */
+
+function saveProfile(event) {
+  event.preventDefault();
+  var userProfile = {
+    username: $profileForm.elements.userName.value,
+    image: $profileForm.elements.profileImg.value,
+    bio: $profileForm.elements.userBio.value,
+    fullName: $profileForm.elements.userFullName.value,
+    location: $profileForm.elements.userLocation.value
+  };
+  data.profile = userProfile;
+}
