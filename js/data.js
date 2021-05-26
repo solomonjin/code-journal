@@ -5,7 +5,13 @@ var data = {
   entries: [],
   editing: null,
   nextEntryId: 1,
-  profile: {}
+  profile: {
+    username: null,
+    image: null,
+    bio: null,
+    fullName: null,
+    location: null
+  }
 };
 
 var previousEntries = localStorage.getItem('user-entry-data');
