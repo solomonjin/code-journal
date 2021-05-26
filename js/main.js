@@ -1,5 +1,6 @@
 /* global data */
 /* exported data */
+/* exported $viewList */
 
 var $newPhotoURL = document.querySelector('#new-entry-url');
 var $newEntryForm = document.querySelector('.new-entry-form');
@@ -13,6 +14,7 @@ var $closeModalBtn = document.querySelector('.close-modal');
 var $confirmDeleteBtn = document.querySelector('.confirm-delete');
 var $modal = document.querySelector('.modal');
 var $modalOverlay = document.querySelector('.modal-overlay');
+var $entriesLink = document.querySelector('.entries-link');
 
 $newPhotoURL.addEventListener('input', handleNewPhotoURL);
 $newEntryForm.addEventListener('submit', handleNewSubmit);
@@ -22,6 +24,7 @@ $entryList.addEventListener('click', clickOnEdit);
 $deleteButton.addEventListener('click', clickOnDelete);
 $closeModalBtn.addEventListener('click', closeModal);
 $confirmDeleteBtn.addEventListener('click', deleteEntry);
+$entriesLink.addEventListener('click', clickEntriesLink);
 
 function handleNewPhotoURL(event) {
   $newPhoto.setAttribute('src', event.target.value);
@@ -59,6 +62,10 @@ function handleNewSubmit(event) {
   if ($displayMessage) $displayMessage.remove();
   $pageTitle.textContent = 'New Entry';
   $deleteButton.classList.add('hide-delete');
+}
+
+function clickEntriesLink(event) {
+  switchView('entries');
 }
 
 function generateEntryDOM(entry) {
@@ -118,6 +125,7 @@ function handleContentLoad(event) {
   for (var i = 0; i < data.entries.length; i++) {
     $entryList.appendChild(generateEntryDOM(data.entries[i]));
   }
+  switchView(data.view);
 }
 
 function checkIfEmpty() {
