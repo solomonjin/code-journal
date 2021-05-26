@@ -76,7 +76,7 @@
           </div>
         </form>
       </div>
-      <div class="container view" data-view="entries">
+      <div class="container view hidden" data-view="entries">
         <div class="row justify-between">
           <h1>Entries</h1>
           <button class="new-entry-button" type="submit" data-view="entry-form">NEW</button>
@@ -85,6 +85,46 @@
           <ul class="entry-list">
           </ul>
         </div>
+      </div>
+      <div class="container view" data-view="edit-profile">
+        <form action="" class="edit-profile-form">
+          <div class="row">
+            <div class="column-full">
+              <h1 class="form-page-title">Edit Profile</h1>
+            </div>
+            <div class="column-half">
+              <img class="new-entry-img" src="images/placeholder-image-square.jpg" alt="New Entry Image">
+            </div>
+            <div class="column-half">
+              <div class="row">
+                <div class="column-full tb-margin">
+                  <label class="bold-text" for="edit-profile-img">Avatar URL</label>
+                  <input name="profileImg" class="entry-input" type="text" id="edit-profile-img" required="required">
+                </div>
+                <div class="column-full tb-margin">
+                  <label for="user-name" class="bold-text">Username</label>
+                  <input name="userName" class="entry-input" type="text" id="user-name" required="required">
+                </div>
+                <div class="column-full tb-margin">
+                  <label for="user-full-name" class="bold-text">Full Name</label>
+                  <input name="userFullName" class="entry-input" type="text" id="user-full-name" required="required">
+                </div>
+                <div class="column-full tb-margin">
+                  <label for="user-location" class="bold-text">Location</label>
+                  <input name="userLocation" class="entry-input" type="text" id="user-location" required="required">
+                </div>
+              </div>
+            </div>
+            <div class="column-full tb-margin">
+              <label for="user-bio" class="bold-text">Bio</label>
+              <textarea name="userBio" id="user-bio" cols="30" rows="6" class="entry-input"
+                required="required"></textarea>
+            </div>
+            <div class="column-full flex justify-between align-center">
+              <button class="submit-entry-button" data-view="profile" type="submit">SAVE</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </main>
