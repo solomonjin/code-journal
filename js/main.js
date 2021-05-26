@@ -137,7 +137,8 @@ function handleContentLoad(event) {
   for (var i = 0; i < data.entries.length; i++) {
     $entryList.appendChild(generateEntryDOM(data.entries[i]));
   }
-  switchView(data.view);
+  if (!data.profile.username) switchView('edit-profile');
+  else switchView(data.view);
   if (data.view === 'entry-form' && data.editing) showEditForm();
 }
 
@@ -229,6 +230,7 @@ function saveProfile(event) {
   data.profile = userProfile;
   $profileForm.reset();
   $profilePhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
+  switchView('profile');
 }
 
 function generateProfileDOM(profile) {
