@@ -8,12 +8,20 @@ var $entryList = document.querySelector('ul');
 var $viewList = document.querySelectorAll('.view');
 var $pageTitle = document.querySelector('.form-page-title');
 var $newPhoto = document.querySelector('.new-entry-img');
+var $deleteButton = document.querySelector('.delete-button');
+var $closeModalBtn = document.querySelector('.close-modal');
+var $confirmDeleteBtn = document.querySelector('.confirm-delete');
+var $modal = document.querySelector('.modal');
+var $modalOverlay = document.querySelector('.modal-overlay');
 
 $newPhotoURL.addEventListener('input', handleNewPhotoURL);
 $newEntryForm.addEventListener('submit', handleNewSubmit);
 window.addEventListener('DOMContentLoaded', handleContentLoad);
 $newEntryButton.addEventListener('click', newEntryClick);
 $entryList.addEventListener('click', clickOnEdit);
+$deleteButton.addEventListener('click', clickOnDelete);
+$closeModalBtn.addEventListener('click', closeModal);
+$confirmDeleteBtn.addEventListener('click', deleteEntry);
 
 function handleNewPhotoURL(event) {
   $newPhoto.setAttribute('src', event.target.value);
@@ -50,6 +58,7 @@ function handleNewSubmit(event) {
   var $displayMessage = document.querySelector('.no-entries-msg');
   if ($displayMessage) $displayMessage.remove();
   $pageTitle.textContent = 'New Entry';
+  $deleteButton.classList.add('hide-delete');
 }
 
 function generateEntryDOM(entry) {
@@ -141,4 +150,25 @@ function clickOnEdit(event) {
   $newEntryForm.elements.notes.value = data.editing.notes;
   $newPhoto.setAttribute('src', data.editing.image);
   $pageTitle.textContent = 'Edit Entry';
+  $deleteButton.classList.remove('hide-delete');
+}
+
+function clickOnDelete(event) {
+  $modal.classList.remove('hidden');
+  $modalOverlay.classList.remove('hidden');
+}
+
+function closeModal(event) {
+  $modal.classList.add('hidden');
+  $modalOverlay.classList.add('hidden');
+}
+
+function deleteEntry(event) {
+  var entryID = data.editing.entryID;
+  for (var i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].entryID === entryID) data.entries.splice(i, 1);
+  }
+  document.querySelector('[data-entry-id="' + entryID + '"]').remove();
+  closeModal();
+  switchView('entries');
 }
