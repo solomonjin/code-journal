@@ -8,12 +8,22 @@ var $entryList = document.querySelector('ul');
 var $viewList = document.querySelectorAll('.view');
 var $pageTitle = document.querySelector('.form-page-title');
 var $newPhoto = document.querySelector('.new-entry-img');
+var $deleteButton = document.querySelector('.delete-button');
+var $closeModalBtn = document.querySelector('.close-modal');
+var $confirmDeleteBtn = document.querySelector('.confirm-delete');
+var $modal = document.querySelector('.modal');
+var $modalOverlay = document.querySelector('.modal-overlay');
+var $entriesLink = document.querySelector('.entries-link');
 
 $newPhotoURL.addEventListener('input', handleNewPhotoURL);
 $newEntryForm.addEventListener('submit', handleNewSubmit);
 window.addEventListener('DOMContentLoaded', handleContentLoad);
 $newEntryButton.addEventListener('click', newEntryClick);
 $entryList.addEventListener('click', clickOnEdit);
+$deleteButton.addEventListener('click', clickOnDelete);
+$closeModalBtn.addEventListener('click', closeModal);
+$confirmDeleteBtn.addEventListener('click', deleteEntry);
+$entriesLink.addEventListener('click', clickEntriesLink);
 
 function handleNewPhotoURL(event) {
   $newPhoto.setAttribute('src', event.target.value);
@@ -44,12 +54,22 @@ function handleNewSubmit(event) {
     data.entries.unshift(newEntry);
     $entryList.prepend(generateEntryDOM(newEntry));
   }
-  $newPhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
-  $newEntryForm.reset();
   switchView('entries');
   var $displayMessage = document.querySelector('.no-entries-msg');
   if ($displayMessage) $displayMessage.remove();
+  resetEntryForm();
+}
+
+function resetEntryForm() {
+  $newPhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
+  $newEntryForm.reset();
   $pageTitle.textContent = 'New Entry';
+  $deleteButton.classList.add('hide-delete');
+}
+
+function clickEntriesLink(event) {
+  switchView('entries');
+  resetEntryForm();
 }
 
 function generateEntryDOM(entry) {
@@ -105,19 +125,26 @@ function generateEntryDOM(entry) {
 }
 
 function handleContentLoad(event) {
+  checkIfEmpty();
+  for (var i = 0; i < data.entries.length; i++) {
+    $entryList.appendChild(generateEntryDOM(data.entries[i]));
+  }
+  switchView(data.view);
+  if (data.view === 'entry-form' && data.editing) showEditForm();
+}
+
+function checkIfEmpty() {
   if (data.entries.length === 0) {
     var $displayMessage = document.createElement('p');
     $displayMessage.textContent = 'No entries have been recorded.';
     $displayMessage.className = 'no-entries-msg';
     $entryList.appendChild($displayMessage);
   }
-  for (var i = 0; i < data.entries.length; i++) {
-    $entryList.appendChild(generateEntryDOM(data.entries[i]));
-  }
 }
 
 function newEntryClick(event) {
   switchView('entry-form');
+  data.editing = null;
 }
 
 function switchView(view) {
@@ -125,6 +152,7 @@ function switchView(view) {
     if ($viewList[i].getAttribute('data-view') === view) $viewList[i].classList.remove('hidden');
     else $viewList[i].classList.add('hidden');
   }
+  data.view = view;
 }
 
 function clickOnEdit(event) {
@@ -136,9 +164,40 @@ function clickOnEdit(event) {
   for (var i = 0; i < data.entries.length; i++) {
     if (data.entries[i].entryID === listID) data.editing = data.entries[i];
   }
+  showEditForm();
+}
+
+function showEditForm() {
   $newEntryForm.elements.title.value = data.editing.title;
   $newEntryForm.elements.image.value = data.editing.image;
   $newEntryForm.elements.notes.value = data.editing.notes;
   $newPhoto.setAttribute('src', data.editing.image);
   $pageTitle.textContent = 'Edit Entry';
+  $deleteButton.classList.remove('hide-delete');
+}
+
+function clickOnDelete(event) {
+  $modal.classList.remove('hidden');
+  $modalOverlay.classList.remove('hidden');
+}
+
+function closeModal(event) {
+  $modal.classList.add('hidden');
+  $modalOverlay.classList.add('hidden');
+}
+
+function deleteEntry(event) {
+  var entryID = data.editing.entryID;
+  for (var i = 0; i < data.entries.length; i++) {
+    if (data.entries[i].entryID === entryID) data.entries.splice(i, 1);
+  }
+  document.querySelector('[data-entry-id="' + entryID + '"]').remove();
+  data.editing = null;
+  closeModal();
+  switchView('entries');
+  checkIfEmpty();
+  $pageTitle.textContent = 'New Entry';
+  $deleteButton.classList.add('hide-delete');
+  $newEntryForm.reset();
+  $newPhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
 }

@@ -7,6 +7,7 @@
   <link rel="icon" href="images/favicon.ico">
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Proza+Libre:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
   <link
     rel="stylesheet"
     crossorigin="anonymous"
@@ -17,11 +18,25 @@
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <div class="modal hidden">
+    <div class="modal-content">
+      <div class="row">
+        <div class="column-full text-center">
+          <h4 class="open-sans-font">Are you sure you want to delete this entry?</h4>
+        </div>
+      </div>
+      <div class="row justify-between">
+        <button class="close-modal open-sans-font">CANCEL</button>
+        <button class="confirm-delete open-sans-font">CONFIRM</button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-overlay hidden"></div>
   <header>
     <div class="container">
       <div class="row white-text align-center">
         <h2 class="no-bold">Code Journal</h2>
-        <a href="" class="entries-link">
+        <a href="#" class="entries-link">
           <h4 class="no-bold white-text add-margin-left">Entries</h4>
         </a>
       </div>
@@ -54,7 +69,8 @@
               <label for="new-entry-notes" class="bold-text">Notes</label>
               <textarea name="notes" id="new-entry-notes" cols="30" rows="6" class="entry-input" required="required"></textarea>
             </div>
-            <div class="column-full flex justify-end">
+            <div class="column-full flex justify-between align-center">
+              <span class="delete-button hide-delete">Delete Entry</span>
               <button class="submit-entry-button" data-view="entries" type="submit">SAVE</button>
             </div>
           </div>
