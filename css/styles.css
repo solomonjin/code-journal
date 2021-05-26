@@ -171,3 +171,8 @@ li div.text-box {
   background-color: #dc2626;
   color: white;
 }
+
+.icon {
+  width: 50px;
+  margin-right: 20px;
+}
