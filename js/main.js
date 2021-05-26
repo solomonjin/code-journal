@@ -161,7 +161,7 @@ function switchView(view) {
     document.querySelector('div.profile-display').remove();
     var $viewProfile = document.querySelector('div[data-view="profile"]');
     $viewProfile.appendChild(generateProfileDOM(data.profile));
-  }
+  } else if (view === 'edit-profile') fillProfileForm();
   for (var i = 0; i < $viewList.length; i++) {
     if ($viewList[i].getAttribute('data-view') === view) $viewList[i].classList.remove('hidden');
     else $viewList[i].classList.add('hidden');
@@ -229,7 +229,7 @@ function saveProfile(event) {
   };
   data.profile = userProfile;
   $profileForm.reset();
-  $profilePhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
+  $profilePhoto.setAttribute('src', data.profile.image);
   switchView('profile');
 }
 
@@ -320,4 +320,13 @@ function generateProfileDOM(profile) {
   $profileDisplay.appendChild($textBox);
 
   return $profileDisplay;
+}
+
+function fillProfileForm() {
+  $profileForm.elements.profileImg.value = data.profile.image;
+  $profileForm.elements.userName.value = data.profile.username;
+  $profileForm.elements.userFullName.value = data.profile.fullName;
+  $profileForm.elements.userLocation.value = data.profile.location;
+  $profileForm.elements.userBio.value = data.profile.bio;
+  $profilePhoto.setAttribute('src', data.profile.image);
 }
