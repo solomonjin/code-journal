@@ -55,17 +55,22 @@ function handleNewSubmit(event) {
     data.entries.unshift(newEntry);
     $entryList.prepend(generateEntryDOM(newEntry));
   }
-  $newPhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
-  $newEntryForm.reset();
   switchView('entries');
   var $displayMessage = document.querySelector('.no-entries-msg');
   if ($displayMessage) $displayMessage.remove();
+  resetEntryForm();
+}
+
+function resetEntryForm() {
+  $newPhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
+  $newEntryForm.reset();
   $pageTitle.textContent = 'New Entry';
   $deleteButton.classList.add('hide-delete');
 }
 
 function clickEntriesLink(event) {
   switchView('entries');
+  resetEntryForm();
 }
 
 function generateEntryDOM(entry) {
@@ -126,6 +131,7 @@ function handleContentLoad(event) {
     $entryList.appendChild(generateEntryDOM(data.entries[i]));
   }
   switchView(data.view);
+  if (data.view === 'entry-form' && data.editing) showEditForm();
 }
 
 function checkIfEmpty() {
@@ -157,6 +163,10 @@ function clickOnEdit(event) {
   for (var i = 0; i < data.entries.length; i++) {
     if (data.entries[i].entryID === listID) data.editing = data.entries[i];
   }
+  showEditForm();
+}
+
+function showEditForm() {
   $newEntryForm.elements.title.value = data.editing.title;
   $newEntryForm.elements.image.value = data.editing.image;
   $newEntryForm.elements.notes.value = data.editing.notes;
