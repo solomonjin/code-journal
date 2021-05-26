@@ -156,6 +156,11 @@ function newEntryClick(event) {
 }
 
 function switchView(view) {
+  if (view === 'profile') {
+    document.querySelector('div.profile-display').remove();
+    var $viewProfile = document.querySelector('div[data-view="profile"]');
+    $viewProfile.appendChild(generateProfileDOM(data.profile));
+  }
   for (var i = 0; i < $viewList.length; i++) {
     if ($viewList[i].getAttribute('data-view') === view) $viewList[i].classList.remove('hidden');
     else $viewList[i].classList.add('hidden');
@@ -314,5 +319,3 @@ function generateProfileDOM(profile) {
 
   return $profileDisplay;
 }
-
-generateProfileDOM();
