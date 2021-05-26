@@ -137,7 +137,8 @@ function handleContentLoad(event) {
   for (var i = 0; i < data.entries.length; i++) {
     $entryList.appendChild(generateEntryDOM(data.entries[i]));
   }
-  switchView(data.view);
+  if (!data.profile.username) switchView('edit-profile');
+  else switchView(data.view);
   if (data.view === 'entry-form' && data.editing) showEditForm();
 }
 
@@ -156,6 +157,11 @@ function newEntryClick(event) {
 }
 
 function switchView(view) {
+  if (view === 'profile') {
+    document.querySelector('div.profile-display').remove();
+    var $viewProfile = document.querySelector('div[data-view="profile"]');
+    $viewProfile.appendChild(generateProfileDOM(data.profile));
+  }
   for (var i = 0; i < $viewList.length; i++) {
     if ($viewList[i].getAttribute('data-view') === view) $viewList[i].classList.remove('hidden');
     else $viewList[i].classList.add('hidden');
@@ -224,4 +230,94 @@ function saveProfile(event) {
   data.profile = userProfile;
   $profileForm.reset();
   $profilePhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
+  switchView('profile');
+}
+
+function generateProfileDOM(profile) {
+  /*
+  append to [data-view="profile"] element
+  <div class="row">
+    <div class="column-full">
+      <h2>Full Name Here</h2>
+    </div>
+    <div class="column-half img-container">
+      <img src="images/placeholder-image-square.jpg" alt="Profile Picture">
+    </div>
+    <div class="column-half">
+      <div class="column-full flex align-center">
+        <img src="images/username-icon.webp" alt="Username icon" class="icon">
+        <h4>User Name Here</h4>
+      </div>
+      <div class="column-full flex align-center">
+        <img src="images/location-icon.png" alt="Location Icon" class="icon">
+        <h4>Location Here</h4>
+      </div>
+      <div class="column-full">
+        <p>User Bio Here</p>
+      </div>
+    </div>
+  </div>
+  */
+
+  var $userNameIcon = document.createElement('img');
+  $userNameIcon.setAttribute('src', 'images/username-icon.webp');
+  $userNameIcon.setAttribute('alt', 'Username Icon');
+  $userNameIcon.className = 'icon';
+
+  var $userName = document.createElement('h4');
+  $userName.textContent = profile.username;
+
+  var $userNameBox = document.createElement('div');
+  $userNameBox.className = 'column-full flex align-center';
+  $userNameBox.appendChild($userNameIcon);
+  $userNameBox.appendChild($userName);
+
+  var $locationIcon = document.createElement('img');
+  $locationIcon.setAttribute('src', 'images/location-icon.png');
+  $locationIcon.setAttribute('alt', 'Location Icon');
+  $locationIcon.className = 'icon';
+
+  var $location = document.createElement('h4');
+  $location.textContent = profile.location;
+
+  var $locationBox = document.createElement('div');
+  $locationBox.className = 'column-full flex align-center';
+  $locationBox.appendChild($locationIcon);
+  $locationBox.appendChild($location);
+
+  var $userBio = document.createElement('p');
+  $userBio.innerText = profile.bio;
+
+  var $bioBox = document.createElement('div');
+  $bioBox.className = 'column-full';
+  $bioBox.appendChild($userBio);
+
+  var $textBox = document.createElement('div');
+  $textBox.className = 'column-half';
+  $textBox.appendChild($userNameBox);
+  $textBox.appendChild($locationBox);
+  $textBox.appendChild($bioBox);
+
+  var $profilePic = document.createElement('img');
+  $profilePic.setAttribute('src', profile.image);
+  $profilePic.setAttribute('alt', 'Profile Picture');
+
+  var $profilePicBox = document.createElement('div');
+  $profilePicBox.className = 'column-half img-container';
+  $profilePicBox.appendChild($profilePic);
+
+  var $fullName = document.createElement('h2');
+  $fullName.textContent = profile.fullName;
+
+  var $fullNameBox = document.createElement('div');
+  $fullNameBox.className = 'column-full';
+  $fullNameBox.appendChild($fullName);
+
+  var $profileDisplay = document.createElement('div');
+  $profileDisplay.className = 'row profile-display';
+  $profileDisplay.appendChild($fullNameBox);
+  $profileDisplay.appendChild($profilePicBox);
+  $profileDisplay.appendChild($textBox);
+
+  return $profileDisplay;
 }
