@@ -114,14 +114,18 @@ function generateEntryDOM(entry) {
 }
 
 function handleContentLoad(event) {
+  checkIfEmpty();
+  for (var i = 0; i < data.entries.length; i++) {
+    $entryList.appendChild(generateEntryDOM(data.entries[i]));
+  }
+}
+
+function checkIfEmpty() {
   if (data.entries.length === 0) {
     var $displayMessage = document.createElement('p');
     $displayMessage.textContent = 'No entries have been recorded.';
     $displayMessage.className = 'no-entries-msg';
     $entryList.appendChild($displayMessage);
-  }
-  for (var i = 0; i < data.entries.length; i++) {
-    $entryList.appendChild(generateEntryDOM(data.entries[i]));
   }
 }
 
@@ -169,6 +173,12 @@ function deleteEntry(event) {
     if (data.entries[i].entryID === entryID) data.entries.splice(i, 1);
   }
   document.querySelector('[data-entry-id="' + entryID + '"]').remove();
+  data.editing = null;
   closeModal();
   switchView('entries');
+  checkIfEmpty();
+  $pageTitle.textContent = 'New Entry';
+  $deleteButton.classList.add('hide-delete');
+  $newEntryForm.reset();
+  $newPhoto.setAttribute('src', 'images/placeholder-image-square.jpg');
 }
