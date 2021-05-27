@@ -255,6 +255,11 @@ function generateProfileDOM(profile) {
       <div class="column-full">
         <p>User Bio Here</p>
       </div>
+      <div class="column-full">
+        <a class="edit-profile-btn" href="#" data-view="edit-profile">
+          <span>EDIT</span>
+        </a>
+      </div>
     </div>
   </div>
   */
@@ -292,11 +297,25 @@ function generateProfileDOM(profile) {
   $bioBox.className = 'column-full';
   $bioBox.appendChild($userBio);
 
+  var $editProfileText = document.createElement('span');
+  $editProfileText.textContent = 'EDIT';
+
+  var $editProfileLink = document.createElement('a');
+  $editProfileLink.setAttribute('href', '#');
+  $editProfileLink.setAttribute('data-view', 'edit-profile');
+  $editProfileLink.className = 'edit-profile-btn';
+  $editProfileLink.appendChild($editProfileText);
+
+  var $editProfileBox = document.createElement('div');
+  $editProfileBox.className = 'column-full';
+  $editProfileBox.appendChild($editProfileLink);
+
   var $textBox = document.createElement('div');
   $textBox.className = 'column-half';
   $textBox.appendChild($userNameBox);
   $textBox.appendChild($locationBox);
   $textBox.appendChild($bioBox);
+  $textBox.appendChild($editProfileBox);
 
   var $profilePic = document.createElement('img');
   $profilePic.setAttribute('src', profile.image);
