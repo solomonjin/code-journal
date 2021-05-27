@@ -159,10 +159,11 @@ function newEntryClick(event) {
 
 function switchView(view) {
   if (view === 'profile') {
+    if (!data.profile.username) view = 'edit-profile';
     document.querySelector('div.profile-display').remove();
     var $viewProfile = document.querySelector('div[data-view="profile"]');
     $viewProfile.appendChild(generateProfileDOM(data.profile));
-  } else if (view === 'edit-profile') fillProfileForm();
+  } if (view === 'edit-profile' && data.profile.username) fillProfileForm();
   for (var i = 0; i < $viewList.length; i++) {
     if ($viewList[i].getAttribute('data-view') === view) $viewList[i].classList.remove('hidden');
     else $viewList[i].classList.add('hidden');
@@ -298,15 +299,11 @@ function generateProfileDOM(profile) {
   $bioBox.className = 'column-full';
   $bioBox.appendChild($userBio);
 
-  // var $editProfileText = document.createElement('span');
-  // $editProfileText.textContent = 'EDIT';
-
   var $editProfileLink = document.createElement('a');
   $editProfileLink.setAttribute('href', '#');
   $editProfileLink.setAttribute('data-view', 'edit-profile');
   $editProfileLink.className = 'edit-profile-btn';
   $editProfileLink.textContent = 'EDIT';
-  // $editProfileLink.appendChild($editProfileText);
 
   var $editProfileBox = document.createElement('div');
   $editProfileBox.className = 'column-full edit-profile-container';
