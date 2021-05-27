@@ -19,6 +19,7 @@ var $profilePhotoURL = document.querySelector('#edit-profile-img');
 var $profilePhoto = document.querySelector('.profile-image');
 var $profileForm = document.querySelector('.edit-profile-form');
 
+document.addEventListener('click', clickOnLink);
 $newPhotoURL.addEventListener('input', handleNewPhotoURL);
 $newEntryForm.addEventListener('submit', handleNewSubmit);
 window.addEventListener('DOMContentLoaded', handleContentLoad);
@@ -297,17 +298,18 @@ function generateProfileDOM(profile) {
   $bioBox.className = 'column-full';
   $bioBox.appendChild($userBio);
 
-  var $editProfileText = document.createElement('span');
-  $editProfileText.textContent = 'EDIT';
+  // var $editProfileText = document.createElement('span');
+  // $editProfileText.textContent = 'EDIT';
 
   var $editProfileLink = document.createElement('a');
   $editProfileLink.setAttribute('href', '#');
   $editProfileLink.setAttribute('data-view', 'edit-profile');
   $editProfileLink.className = 'edit-profile-btn';
-  $editProfileLink.appendChild($editProfileText);
+  $editProfileLink.textContent = 'EDIT';
+  // $editProfileLink.appendChild($editProfileText);
 
   var $editProfileBox = document.createElement('div');
-  $editProfileBox.className = 'column-full';
+  $editProfileBox.className = 'column-full edit-profile-container';
   $editProfileBox.appendChild($editProfileLink);
 
   var $textBox = document.createElement('div');
@@ -348,4 +350,9 @@ function fillProfileForm() {
   $profileForm.elements.userLocation.value = data.profile.location;
   $profileForm.elements.userBio.value = data.profile.bio;
   $profilePhoto.setAttribute('src', data.profile.image);
+}
+
+function clickOnLink(event) {
+  if (event.target.tagName !== 'A') return;
+  switchView(event.target.getAttribute('data-view'));
 }

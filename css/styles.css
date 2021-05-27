@@ -79,6 +79,10 @@ ul {
   text-decoration: none;
 }
 
+.edit-profile-container {
+  margin: 2rem 0;
+}
+
 .new-entry-button {
   height: 100%;
 }
